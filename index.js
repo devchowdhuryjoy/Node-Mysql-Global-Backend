@@ -1,6 +1,7 @@
 const express = require("express");
 const db = require("./config/db");
 const cors = require("cors");
+const path = require('path');
 const registerRoute = require("./routes/registerRoute");
 const reviewRoute = require("./routes/reviewRoute");
 const authRoute = require("./routes/authRoute");
@@ -20,9 +21,8 @@ app.use(
 );
 app.use(express.json());
 // ✅ Serve static files from /uploads
-app.use("/uploads", express.static("uploads"));
 app.use(express.urlencoded({ extended: true }));
-app.use("/uploads", express.static("uploads"));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Use registration route
 app.use("/", registerRoute);

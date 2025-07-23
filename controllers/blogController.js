@@ -1,9 +1,10 @@
+
 const db = require("../config/db");
 
-// GET: All blogs
+// GET: All blogs (for blog listing page)
 const getAllBlogs = (req, res) => {
   const sql = "SELECT * FROM blogs ORDER BY date DESC";
-
+  
   db.query(sql, (err, results) => {
     if (err) {
       console.error("Error fetching blogs:", err);
@@ -13,23 +14,37 @@ const getAllBlogs = (req, res) => {
   });
 };
 
+// GET: Single blog by slug (for blog details page)
+const getBlogBySlug = (req, res) => {
+  const { slug } = req.params;
+  const sql = "SELECT * FROM blogs WHERE slug = ?";
+  
+  db.query(sql, [slug], (err, results) => {
+    if (err) {
+      console.error("Error fetching blog:", err);
+      return res.status(500).json({ message: "Database error" });
+    }
+    if (results.length === 0) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+    res.json(results[0]);
+  });
+};
+
 // POST: New blog with image upload
 const addBlog = (req, res) => {
-  console.log("BODY:", req.body);
-  console.log("FILE:", req.file);
-
-  const { slug, title, excerpt, author, date, tag } = req.body;
+  const { slug, title, excerpt, author, date, tag, content } = req.body;
   const image = req.file ? `/uploads/${req.file.filename}` : null;
 
-  if (!slug || !title || !excerpt || !author || !date || !tag || !image) {
+  if (!slug || !title || !excerpt || !author || !date || !tag || !image || !content) {
     return res.status(400).json({ message: "All fields including image are required" });
   }
 
   const sql = `
-    INSERT INTO blogs (slug, title, excerpt, image, author, date, tag)
-    VALUES (?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO blogs (slug, title, excerpt, image, author, date, tag, content)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
   `;
-  const values = [slug, title, excerpt, image, author, date, tag];
+  const values = [slug, title, excerpt, image, author, date, tag, content];
 
   db.query(sql, values, (err, result) => {
     if (err) {
@@ -44,4 +59,8 @@ const addBlog = (req, res) => {
   });
 };
 
-module.exports = { getAllBlogs, addBlog };
+
+
+
+
+module.exports = { getAllBlogs, getBlogBySlug, addBlog,  };

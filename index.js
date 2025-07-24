@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require('path');
 const registerRoute = require("./routes/registerRoute");
 const reviewRoute = require("./routes/reviewRoute");
+const reviewTwoRoute = require('./routes/reviewTwoRoute');
 const authRoute = require("./routes/authRoute");
 const videoRoute = require('./routes/videoRoute');
 const blogRoute = require("./routes/blogRoute");
@@ -30,6 +31,7 @@ app.use("/", reviewRoute);
 app.use("/", authRoute);
 app.use("/", videoRoute);
 app.use("/", blogRoute);
+app.use('/', reviewTwoRoute);
 
 
 

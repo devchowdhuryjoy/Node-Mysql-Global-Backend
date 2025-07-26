@@ -8,6 +8,8 @@ const reviewTwoRoute = require('./routes/reviewTwoRoute');
 const authRoute = require("./routes/authRoute");
 const videoRoute = require('./routes/videoRoute');
 const blogRoute = require("./routes/blogRoute");
+const nursingRoute = require("./routes/nursingRoute");
+
 
 
 const app = express();
@@ -32,6 +34,8 @@ app.use("/", authRoute);
 app.use("/", videoRoute);
 app.use("/", blogRoute);
 app.use('/', reviewTwoRoute);
+app.use("/", nursingRoute);
+
 
 
 

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const path = require('path');
-const { submitReviewTwo, getAllReviewsTwo } = require('../controllers/reviewTwoController');
+const { submitReviewTwo, getAllReviewsTwo,updateReviewTwo,deleteReviewTwo } = require('../controllers/reviewTwoController');
 
 // Multer config
 const storage = multer.diskStorage({
@@ -14,5 +14,7 @@ const upload = multer({ storage });
 // Routes
 router.post('/reviewtwopost', upload.single('image'), submitReviewTwo);
 router.get('/reviewtwoget', getAllReviewsTwo);
+router.put('/reviewtwoupdate/:id', upload.single('image'), updateReviewTwo);
+router.delete('/reviewtwodelete/:id', deleteReviewTwo);
 
 module.exports = router;

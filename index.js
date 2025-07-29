@@ -13,6 +13,8 @@ const accountingRoute = require("./routes/accountingRoutes");
 const engineeringRoute = require("./routes/engineeringRoute");
 const foodHospitalityRoute = require("./routes/foodHospitalityRoute");
 const businessRoute = require("./routes/businessRoute");
+const collaborationRoutes = require("./routes/collaborationRoutes");
+const leadershipRoutes = require("./routes/leadershipRoutes");
 
 const app = express();
 const port = 3000;
@@ -41,6 +43,8 @@ app.use("/", accountingRoute);
 app.use("/", engineeringRoute);
 app.use("/", foodHospitalityRoute);
 app.use("/", businessRoute);
+app.use("/", collaborationRoutes);
+app.use("/", leadershipRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

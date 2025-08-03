@@ -15,6 +15,8 @@ const foodHospitalityRoute = require("./routes/foodHospitalityRoute");
 const businessRoute = require("./routes/businessRoute");
 const collaborationRoutes = require("./routes/collaborationRoutes");
 const leadershipRoutes = require("./routes/leadershipRoutes");
+const countryRegisterRoutes = require("./routes/countryRegisterRoutes");
+
 
 const app = express();
 const port = 3000;
@@ -45,6 +47,8 @@ app.use("/", foodHospitalityRoute);
 app.use("/", businessRoute);
 app.use("/", collaborationRoutes);
 app.use("/", leadershipRoutes);
+app.use("/", countryRegisterRoutes);
+
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

@@ -16,6 +16,9 @@ const businessRoute = require("./routes/businessRoute");
 const collaborationRoutes = require("./routes/collaborationRoutes");
 const leadershipRoutes = require("./routes/leadershipRoutes");
 const countryRegisterRoutes = require("./routes/countryRegisterRoutes");
+const scholarshipRoutes = require("./routes/scholarshipRoutes");
+const visaSuccessRoutes = require("./routes/visaSuccessRoutes");
+
 
 
 const app = express();
@@ -48,6 +51,9 @@ app.use("/", businessRoute);
 app.use("/", collaborationRoutes);
 app.use("/", leadershipRoutes);
 app.use("/", countryRegisterRoutes);
+app.use("/", scholarshipRoutes);
+app.use("/", visaSuccessRoutes);
+
 
 
 app.listen(port, () => {

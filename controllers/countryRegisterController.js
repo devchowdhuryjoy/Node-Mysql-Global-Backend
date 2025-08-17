@@ -90,7 +90,7 @@
 
 // module.exports = { registerCountrySelection,  getCountryRegistrations,deleteCountryRegistration };
 
-// controllers/countryRegisterController.js
+
 const db = require("../config/db");
 const SendEmailUtility = require("../utilitys/SendEmailUtility");
 
@@ -183,5 +183,6 @@ const deleteCountryRegistration = (req, res) => {
     res.status(200).json({ message: "Registration deleted successfully" });
   });
 };
+
 
 module.exports = { registerCountrySelection, getCountryRegistrations, deleteCountryRegistration };

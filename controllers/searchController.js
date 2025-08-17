@@ -1,30 +1,47 @@
 const db = require("../config/db");
 
 const searchRegistrations = (req, res) => {
-  const { q, page = 1, limit = 10 } = req.query;
-
+  let { name, email, phone, page = 1, limit = 10 } = req.query;
+  page = parseInt(page);
+  limit = parseInt(limit);
   const offset = (page - 1) * limit;
-  const searchQuery = `%${q}%`;
 
-  const sql = `
-    SELECT * FROM registrations 
-    WHERE first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR phone LIKE ?
-    ORDER BY created_at DESC
-    LIMIT ? OFFSET ?
-  `;
+  let conditions = [];
+  let values = [];
 
-  db.query(sql, [searchQuery, searchQuery, searchQuery, searchQuery, parseInt(limit), parseInt(offset)], (err, results) => {
+  if (name) {
+    name = name.trim().toLowerCase();
+    conditions.push("(LOWER(CONCAT(first_name,' ',last_name)) LIKE ?)");
+    values.push(`%${name}%`);
+  }
+
+  if (email) {
+    email = email.trim().toLowerCase();
+    conditions.push("LOWER(email) LIKE ?");
+    values.push(`%${email}%`);
+  }
+
+  if (phone) {
+    phone = phone.trim();
+    conditions.push("phone LIKE ?");
+    values.push(`%${phone}%`);
+  }
+
+  if (conditions.length === 0) {
+    return res.status(400).json({ message: "Please provide at least one search parameter" });
+  }
+
+  const whereClause = conditions.join(" OR ");
+  const sql = `SELECT * FROM registrations WHERE ${whereClause} ORDER BY created_at DESC LIMIT ? OFFSET ?`;
+
+  db.query(sql, [...values, limit, offset], (err, results) => {
     if (err) {
       console.error("Search error:", err);
       return res.status(500).json({ message: "Database error" });
     }
 
-    // total count for pagination
-    const countSql = `
-      SELECT COUNT(*) as total FROM registrations
-      WHERE first_name LIKE ? OR last_name LIKE ? OR email LIKE ? OR phone LIKE ?
-    `;
-    db.query(countSql, [searchQuery, searchQuery, searchQuery, searchQuery], (countErr, countResult) => {
+    const countSql = `SELECT COUNT(*) as total FROM registrations WHERE ${whereClause}`;
+    db.query(countSql, values, (countErr, countResult) => {
       if (countErr) {
         console.error("Count error:", countErr);
         return res.status(500).json({ message: "Database error" });
@@ -33,8 +50,8 @@ const searchRegistrations = (req, res) => {
       res.status(200).json({
         data: results,
         total: countResult[0].total,
-        page: parseInt(page),
-        limit: parseInt(limit),
+        page,
+        limit,
       });
     });
   });

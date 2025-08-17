@@ -7,7 +7,7 @@ const {
   deleteRegistration,
 } = require("../controllers/registerController");
 
-const { searchRegistrations } = require("../controllers/searchController")
+const { searchRegistrations } = require("../controllers/searchController");
 
 router.post("/register", registerUser);
 router.get("/registrations", getAllRegistrations);

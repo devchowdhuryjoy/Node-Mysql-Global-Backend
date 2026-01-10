@@ -23,7 +23,7 @@ const visaSuccessRoutes = require("./routes/visaSuccessRoutes");
 
 
 const app = express();
-const port = 3000;
+// const port = 3000;
 
 app.use(
   cors({
@@ -58,6 +58,11 @@ app.use("/", visaSuccessRoutes);
 
 
 
+// app.listen(port, () => {
+//   console.log(`Server running on http://localhost:${port}`);
+// });
+
+const port = process.env.PORT || 3000;
 app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
+  console.log(`Server running on port ${port}`);
 });

@@ -27,13 +27,13 @@ const port = 3000;
 
 app.use(
   cors({
-    // ✅ Allow requests from these origins
+    // Allow requests from these origins
     origin: ["http://localhost:5173", "http://localhost:30001"],
     credentials: true,
   })
 );
 app.use(express.json());
-// ✅ Serve static files from /uploads
+// Serve static files from /uploads
 app.use(express.urlencoded({ extended: true }));
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 

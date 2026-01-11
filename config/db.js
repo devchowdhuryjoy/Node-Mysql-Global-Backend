@@ -19,41 +19,25 @@
 
 
 
-// const mysql = require('mysql2');
-
-// const db = mysql.createConnection({
-//   host: 'localhost',
-//   user: 'u376244250_globalrouteway',
-//   password: '@Zt~&mAD6',
-//   database: 'u376244250_globalrouteway'
-// });
-
-// db.connect((err) => {
-//   if (err) {
-//     console.error('Database connection failed:', err);
-//     return;
-//   }
-//   console.log('Database connected successfully!');
-// });
-
-// module.exports = db;
 
 
-const mysql = require('mysql2');
+
+const mysql = require("mysql2");
 
 const db = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME
+  database: process.env.DB_NAME,
 });
 
 db.connect((err) => {
   if (err) {
-    console.error('Database connection failed:', err.message);
+    console.error("Database connection failed:", err.message);
     return;
   }
-  console.log('Database connected successfully!');
+  console.log("Database connected successfully!");
 });
 
 module.exports = db;
+

@@ -71,48 +71,125 @@
 
 
 
-require("dotenv").config(); //
+// require("dotenv").config(); //
+
+// const express = require("express");
+// const db = require("./config/db");
+// const cors = require("cors");
+// const path = require("path");
+
+// const app = express();
+
+// app.use(
+//   cors({
+//     origin: [
+//       "http://localhost:5173",
+//       "https://globalrouteway.com"
+//     ],
+//     credentials: true,
+//   })
+// );
+
+
+
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+
+// // routes
+// app.use("/api", require("./routes/registerRoute"));
+// app.use("/api", require("./routes/reviewRoute"));
+// app.use("/api", require("./routes/reviewTwoRoute"));
+// app.use("/api", require("./routes/authRoute"));
+// app.use("/api", require("./routes/videoRoute"));
+// app.use("/api", require("./routes/blogRoute"));
+// app.use("/api", require("./routes/nursingRoute"));
+// app.use("/api", require("./routes/accountingRoutes"));
+// app.use("/api", require("./routes/engineeringRoute"));
+// app.use("/api", require("./routes/foodHospitalityRoute"));
+// app.use("/api", require("./routes/businessRoute"));
+// app.use("/api", require("./routes/collaborationRoutes"));
+// app.use("/api", require("./routes/leadershipRoutes"));
+// app.use("/api", require("./routes/countryRegisterRoutes"));
+// app.use("/api", require("./routes/scholarshipRoutes"));
+// app.use("/api", require("./routes/visaSuccessRoutes"));
+
+
+// // React build serve 
+// const buildPath = path.join(__dirname, "dist"); //"build"
+// app.use(express.static(buildPath));
+
+// // catch-all route: URL → React index.html
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(buildPath, "index.html"));
+// });
+
+// const port = process.env.PORT || 3000;
+// app.listen(port, () => {
+//   console.log("Server running on port", port);
+// });
+
+
+
+require("dotenv").config();
 
 const express = require("express");
-const db = require("./config/db");
+const db = require("./config/db"); // Ensure this connects to your MySQL DB
 const cors = require("cors");
 const path = require("path");
 
 const app = express();
 
+// ===== CORS =====
 app.use(
   cors({
     origin: [
-      "http://localhost:5173",
-      "https://globalrouteway.com"
+      "http://localhost:5173",  // dev
+      "https://globalrouteway.com" // production
     ],
     credentials: true,
   })
 );
 
+// ===== Body parsers =====
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// ===== Static files =====
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
-// routes
-app.use("/", require("./routes/registerRoute"));
-app.use("/", require("./routes/reviewRoute"));
-app.use("/", require("./routes/reviewTwoRoute"));
-app.use("/", require("./routes/authRoute"));
-app.use("/", require("./routes/videoRoute"));
-app.use("/", require("./routes/blogRoute"));
-app.use("/", require("./routes/nursingRoute"));
-app.use("/", require("./routes/accountingRoutes"));
-app.use("/", require("./routes/engineeringRoute"));
-app.use("/", require("./routes/foodHospitalityRoute"));
-app.use("/", require("./routes/businessRoute"));
-app.use("/", require("./routes/collaborationRoutes"));
-app.use("/", require("./routes/leadershipRoutes"));
-app.use("/", require("./routes/countryRegisterRoutes"));
-app.use("/", require("./routes/scholarshipRoutes"));
-app.use("/", require("./routes/visaSuccessRoutes"));
+// ===== Backend API Routes =====
+app.use("/api", require("./routes/registerRoute"));
+app.use("/api", require("./routes/reviewRoute"));
+app.use("/api", require("./routes/reviewTwoRoute"));
+app.use("/api", require("./routes/authRoute"));
+app.use("/api", require("./routes/videoRoute"));
+app.use("/api", require("./routes/blogRoute"));
+app.use("/api", require("./routes/nursingRoute"));
+app.use("/api", require("./routes/accountingRoutes"));
+app.use("/api", require("./routes/engineeringRoute"));
+app.use("/api", require("./routes/foodHospitalityRoute"));
+app.use("/api", require("./routes/businessRoute"));
+app.use("/api", require("./routes/collaborationRoutes"));
+app.use("/api", require("./routes/leadershipRoutes"));
+app.use("/api", require("./routes/countryRegisterRoutes"));
+app.use("/api", require("./routes/scholarshipRoutes"));
+app.use("/api", require("./routes/visaSuccessRoutes"));
 
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log("Server running on port", port);
+// ===== Serve React build =====
+const buildFolder = "dist"; // Change to "build" if your React build folder is named 'build'
+const buildPath = path.join(__dirname, buildFolder);
+app.use(express.static(buildPath));
+
+// ===== Catch-all route for React Router =====
+app.get("*", (req, res) => {
+  res.sendFile(path.join(buildPath, "index.html"));
 });
+
+// ===== Server start =====
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+
